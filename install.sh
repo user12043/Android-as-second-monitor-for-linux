@@ -5,10 +5,10 @@ FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
 # Make sure only root can run our script
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+# if [[ $EUID -ne 0 ]]; then
+#    echo "This script must be run as root" 1>&2
+#    exit 1
+# fi
 
 echo "vmon - Virtual Monitor Installer v1.1"
 echo ""
@@ -116,14 +116,14 @@ chmod 775 vmon
 chmod 775 vmon.conf
 chmod 775 resolution.conf
 
-read -p "This script will install vmon into /bin and config files into ~/.vmon , is that okay ? y/n : " uConfirm
+read -p "This script will install vmon into $HOME/bin and config files into ~/.vmon , is that okay ? y/n : " uConfirm
 echo ""
 if [ "$uConfirm" != "y" ]; then
     echo -e "Exit installer!\n"
     exit 0
 fi
 
-yes | cp -rf vmon /bin/vmon
+yes | cp -rf vmon $HOME/bin/vmon
 if [ ! -d "$configDir" ]; then
   mkdir $configDir
 fi
@@ -136,10 +136,11 @@ chown -R ${user[0]}:${user[0]} /home/${user[0]}/.vmon
 #chown  $user:$user $resolutionFile
 
 # man
-echo "Copy vmon to /usr/share/man/man1/vmon.1"
-yes | cp -rf man/vmon /usr/share/man/man1/vmon.1
-gzip /usr/share/man/man1/vmon.1
-chmod 775 /usr/share/man/man1/vmon.1.gz
+echo "Copy vmon to $HOME/.local/share/man/man1/vmon.1"
+mkdir -p $HOME/.local/share/man/man1
+yes | cp -rf man/vmon $HOME/.local/share/man/man1/vmon.1
+gzip $HOME/.local/share/man/man1/vmon.1
+chmod 775 $HOME/.local/share/man/man1/vmon.1.gz
 
 echo "Done!"
 exit 0

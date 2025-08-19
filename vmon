@@ -4,6 +4,7 @@ user=($(who))
 configDir="/home/${user[0]}/.vmon"
 resolutionFile="/home/${user[0]}/.vmon/resolution.conf"
 userConfFile="/home/${user[0]}/.vmon/vmon.conf"
+virtualOutName="HDMI-1"
 
 function vmonitor-help () {
     echo "Virtual monitor - easy virtual monitor setup tool"
@@ -142,23 +143,23 @@ if [ "$1" = "setup" ]; then
         #echo "modeline = $modeline"
         #echo "modename = $modename"
         xrandr --newmode ${modeline[$i]}
-        xrandr --addmode VIRTUAL1 ${modename[$i]}
+        xrandr --addmode $virtualOutName ${modename[$i]}
     done
-    xrandr --output VIRTUAL1 --off
+    xrandr --output $virtualOutName --off
     exit 0
 fi
 
 if [ "$1" = "enable" ]; then
-    #echo "Enable VIRTUAL1 with mode $defaultResolution --primary --right-of $defaultDisplay "
-    #xrandr --output VIRTUAL1 --mode $defaultResolution --primary --right-of $defaultDisplay
-    echo "Enable VIRTUAL1 with mode $defaultResolution --right-of $defaultDisplay "
-    xrandr --output VIRTUAL1 --mode $defaultResolution --right-of $defaultDisplay
+    #echo "Enable $virtualOutName with mode $defaultResolution --primary --right-of $defaultDisplay "
+    #xrandr --output $virtualOutName --mode $defaultResolution --primary --right-of $defaultDisplay
+    echo "Enable $virtualOutName with mode $defaultResolution --right-of $defaultDisplay "
+    xrandr --output $virtualOutName --mode $defaultResolution --right-of $defaultDisplay
     exit 0
 fi
 
 if [ "$1" = "disable" ]; then
-    echo "VIRTUAL1 is disabled"
-    xrandr --output VIRTUAL1 --off
+    echo "$virtualOutName is disabled"
+    xrandr --output $virtualOutName --off
     exit 0
 fi
 

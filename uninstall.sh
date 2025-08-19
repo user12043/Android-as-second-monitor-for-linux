@@ -5,10 +5,10 @@ FILE="/tmp/out.$$"
 GREP="/bin/grep"
 
 # Make sure only root can run our script
-if [[ $EUID -ne 0 ]]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+# if [[ $EUID -ne 0 ]]; then
+#    echo "This script must be run as root" 1>&2
+#    exit 1
+# fi
 
 # get user who running this script as root
 user=($(who))
@@ -21,12 +21,12 @@ if [ "$uConfirm" != "y" ]; then
     exit 1
 fi
 
-echo "Remove /bin/vmon."
-rm -f /bin/vmon
+echo "Remove $HOME/bin/vmon."
+rm -f $HOME/bin/vmon
 echo "Remove ${user[0]}/.vmon and it's contents."
 rm -rf /home/${user[0]}/.vmon
 echo "Remove /usr/share/man/man1/vmon.1.gz"
-rm -f /usr/share/man/man1/vmon.1.gz
+rm -f $HOME/.local/share/man/man1/vmon.1.gz
 echo "Done"
 exit 0
 
